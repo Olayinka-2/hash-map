@@ -1,9 +1,9 @@
 import { LinkedList } from "./linkedlist.js";
 
-class HashMap {
+export class HashMap {
    #loadFactor;
    #initialCapacity;
-   constructor(initialCapacity = 16, load = 0.8) {
+   constructor(initialCapacity = 16, load = 0.75) {
       this.#initialCapacity = initialCapacity;
       this.#loadFactor = load;
       this.buckets = new Array(this.#initialCapacity).fill(null);
@@ -40,7 +40,6 @@ class HashMap {
       while(currentNode !== null) {
          if(currentNode.key === key) {
             currentNode.value = value;
-            this.size++;
             return;
          }
          currentNode = currentNode.next
@@ -113,7 +112,7 @@ class HashMap {
    }
 
    length() {
-      return this.size++;
+      return this.size;
    }
 
    clear() {
