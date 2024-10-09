@@ -40,6 +40,7 @@ class HashMap {
       while(currentNode !== null) {
          if(currentNode.key === key) {
             currentNode.value = value;
+            this.size++;
             return;
          }
          currentNode = currentNode.next
@@ -111,6 +112,10 @@ class HashMap {
       return false;
    }
 
+   length() {
+      return this.size++;
+   }
+
    #resize() {
       const oldBuckets = this.buckets;
       this.#initialCapacity *= 2; // Double the capacity
@@ -135,7 +140,7 @@ class HashMap {
 
 let man = new HashMap();
 man.set('mans', 1);
-man.set('mans', 2);
+man.set('manse', 2);
 man.set('masn', 1);
 man.set('mane', 2);
 man.set('manse', 1);
@@ -157,3 +162,4 @@ man.set('cmarn', 255);
 
 // console.log(man.has(null));
 console.log(man.remove('cmarn'));
+console.log(man.length());
