@@ -1,8 +1,10 @@
+import { LinkedList } from "./linkedlist.js";
+
 class HashMap {
    constructor(initialCapacity = 16, load = 0.8) {
       this.initialCapacity = initialCapacity;
       this.loadFactor = load;
-      this.bucket = new Array(this.initialCapacity.length).fill(null);
+      this.buckets = new Array(this.initialCapacity).fill(null);
       this.size = 0;
    }
    
@@ -19,32 +21,78 @@ class HashMap {
    }
 
    #getBucketIndex(key) {
-      let key = this.#hash(key);
-      return Math.abs(key % this.initialCapacity);
+      let keys = this.#hash(key);
+      return Math.abs(keys % this.initialCapacity);
    }
 
 
 
    set(key, value) {
-      if(this.bucket[this.#getBucketIndex] == null && this.bucket[this.#getBucketIndex] !== undefined) {
-         
+      let index = this.#getBucketIndex(key);
+      if (!this.buckets[index]) {
+         this.buckets[index] = new LinkedList();
+      }
+
+      let currentNode = this.buckets[index].head;
+
+      while(currentNode !== null) {
+         if(currentNode.key === key) {
+            currentNode.value = value;
+            return;
+         }
+         currentNode = currentNode.next
+      }
+
+      this.buckets[index].append(key, value);
+
+      this.size++;
+
+      if(this.size / this.initialCapacity > this.loadFactor) {
+         this.#resize();
       }
    }
-}
 
-export class LinkedList {
-   head = null;
-   size = 0;
-}
+   #resize() {
+      const oldBuckets = this.buckets;
+      this.initialCapacity *= 2; // Double the capacity
+      this.buckets = Array(this.capacity).fill(null); // Create new bucket array
+      this.size = 0; // Reset size, we will re-add elements
+  
+      // Rehash all existing key-value pairs
+      for (let bucket of oldBuckets) {
+        if (bucket) {
 
-class Node {
-   constructor(key, value) {
-      this.key = key
-      this.value = value;
-      this.next = null;
-   }
+         let currentNode = bucket.head;
+         while(currentNode !== null) {
+            this.set(currentNode.key, currentNode.value);
+            currentNode = currentNode.next;
+         }
+        }
+      }
+    }
+  
 }
 
 
 
 let man = new HashMap();
+man.set('mans', 1);
+man.set('mans', 2);
+man.set('masn', 1);
+man.set('mane', 2);
+man.set('manse', 1);
+man.set('marned', 2);
+man.set('mansd', 1);
+man.set('manaa', 2);
+man.set('masnee', 1);
+man.set('maneea', 2);
+man.set('mansae', 1);
+man.set('maaarn', 2);
+man.set('mafbnnns', 1);
+man.set('mand', 2);
+man.set('maszn', 1);
+man.set('zmane', 2);
+man.set('cmanse', 1);
+man.set('cmarn', 2);
+console.log(man.buckets);
+console.log(man.size);

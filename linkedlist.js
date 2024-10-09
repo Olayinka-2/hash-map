@@ -1,11 +1,12 @@
-export class LinkedList {
+class LinkedList {
    head = null;
    size = 0;
 }
 
 class Node {
-   constructor(data) {
-      this.data = data;
+   constructor(key, value) {
+      this.key = key;
+      this.value = value;
       this.next = null;
    }
 }
@@ -21,9 +22,9 @@ LinkedList.prototype.prepend = function(value) {
    this.size++;
 }
 
-LinkedList.prototype.append = function(value) {
+LinkedList.prototype.append = function(key, value) {
    if(this.head === null) {
-      this.head = new Node(value);
+      this.head = new Node(key, value);
       this.size++;
       return;
    }
@@ -34,7 +35,7 @@ LinkedList.prototype.append = function(value) {
       currentHead = currentHead.next;
    }
 
-   currentHead.next = new Node(value);
+   currentHead.next = new Node(key, value);
 
    this.size++;
 }
@@ -192,3 +193,5 @@ LinkedList.prototype.removeAt = function(index) {
       this.size--;
    }
 }
+
+export {LinkedList, Node}
