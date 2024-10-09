@@ -116,13 +116,64 @@ class HashMap {
       return this.size++;
    }
 
+   clear() {
+      this.buckets = new Array(this.#initialCapacity).fill(null);
+      this.size = 0;
+   }
+
+   keys() {
+      let keyArray = [];
+      for(let element of this.buckets) {
+
+         if(element !== null) {
+            let elementNode = element.head;
+            while(elementNode !== null) {
+      
+               keyArray.push(elementNode.key);
+               elementNode = elementNode.next;
+            }
+         }
+      }
+      return keyArray;
+   }
+
+   values() {
+      let keyArray = [];
+      for(let element of this.buckets) {
+
+         if(element !== null) {
+            let elementNode = element.head;
+            while(elementNode !== null) {
+      
+               keyArray.push(elementNode.value);
+               elementNode = elementNode.next;
+            }
+         }
+      }
+      return keyArray;
+   }
+
+   entries() {
+      let keyArray = [];
+      for(let element of this.buckets) {
+
+         if(element !== null) {
+            let elementNode = element.head;
+            while(elementNode !== null) {
+      
+               keyArray.push([elementNode.key,elementNode.value]);
+               elementNode = elementNode.next;
+            }
+         }
+      }
+      return keyArray;
+   }
    #resize() {
       const oldBuckets = this.buckets;
-      this.#initialCapacity *= 2; // Double the capacity
-      this.buckets = Array(this.#initialCapacity).fill(null); // Create new bucket array
-      this.size = 0; // Reset size, we will re-add elements
+      this.#initialCapacity *= 2; 
+      this.buckets = Array(this.#initialCapacity).fill(null);
+      this.size = 0;
 
-      // Rehash all existing key-value pairs
       for (let bucket of oldBuckets) {
          if (bucket) {
 
@@ -135,31 +186,3 @@ class HashMap {
       }
    }
 }
-
-
-
-let man = new HashMap();
-man.set('mans', 1);
-man.set('manse', 2);
-man.set('masn', 1);
-man.set('mane', 2);
-man.set('manse', 1);
-man.set('marned', 2);
-man.set('mansd', 1);
-man.set('manaa', 2);
-man.set('masnee', 1);
-man.set('maneea', 2);
-man.set('mansae', 1);
-man.set('maaarn', 2);
-man.set('mafbnnns', 1);
-man.set('mand', 2);
-man.set('maszn', 1);
-man.set('zmane', 2);
-man.set('cmanse', 1);
-man.set('cmarn', 255);
-// console.log(man.buckets);
-// console.log(man.size);
-
-// console.log(man.has(null));
-console.log(man.remove('cmarn'));
-console.log(man.length());
